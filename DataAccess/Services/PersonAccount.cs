@@ -7,15 +7,15 @@ namespace DataAccess.Services
     {
         public static Person ProvidePerson(string[] personArray)
         {
-            Person erson = new Person
+            Person person = new Person
             {
                 Id = int.Parse(personArray[0]),
                 GivenName = personArray[1],
                 FamilyName = personArray[2],
-                StartDate = DateTime.Parse(personArray[3]),
+                StartDate = DateTime.Parse(personArray[3]).Date,
                 Rating = int.Parse(personArray[4]),
             };
-            return erson;
+            return person;
         }
     }
 }

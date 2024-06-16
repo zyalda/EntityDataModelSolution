@@ -17,11 +17,13 @@ namespace BusinessLayer.Services
 
         public EmployeeReader(IDataReader<Employee> employeePresentation)
         {
+            EmployeeMessage = "Employee is";
             Employee = new List<Employee>();
             _employeePresentation = employeePresentation;
         }
 
         public IEnumerable<Employee> Employee { get; set; }
+        private string EmployeeMessage { get; set; }
         public void RefreshEmployee()
         {
             Employee = _employeePresentation.RetrieveAll();
@@ -30,6 +32,7 @@ namespace BusinessLayer.Services
         public void PrintEmployees()
         {
             //RefreshEmployee();
+            EmployeeMessage = "Employees are";
             Employee = _employeePresentation.RetrieveAll();
             Employee.WriteToFile();
             _eventHandler += DelegateMethod;
@@ -37,9 +40,14 @@ namespace BusinessLayer.Services
         }
         public Employee FindEmployeeById(int id)
         {
+            var employee = _employeePresentation.FindById(id);
             _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
-            return _employeePresentation.FindById(id);
+            if (!string.IsNullOrEmpty(employee.FirstName))
+                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
+            else
+                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.notfound));
+            
+            return employee;
         }
         public void AddEmployee(string employeeString)
         {
@@ -85,7 +93,7 @@ namespace BusinessLayer.Services
 
         public void DelegateMethod(object sender, PerformedEventArgs e)
         {
-            Console.WriteLine($"Employees are {e.EventsArgsType}.");
+            Console.WriteLine($"{EmployeeMessage} {e.EventsArgsType}.");
         }
         #endregion
     }

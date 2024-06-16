@@ -18,11 +18,13 @@ namespace BusinessLayer.Services
 
         public CustomerReader(IDataReader<Customer> customerPresentation)
         {
+            CustomerMessage = "Customer is";
             Customers = new List<Customer>();
             _customerPresentation = customerPresentation;
         }
 
         public IEnumerable<Customer> Customers { get; set; }
+        private string CustomerMessage { get; set; }
         public void RefreshCustomer()
         {
             //PropertyChanged += delegate(object sender, PropertyChangedEventArgs eventArgs)
@@ -36,6 +38,7 @@ namespace BusinessLayer.Services
         {
             Customers = _customerPresentation.RetrieveAll();
             Customers.WriteToFile();
+            CustomerMessage = "Customers are";
             _eventHandler += DelegateMethod;
             _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.loaded));
         }
@@ -49,9 +52,14 @@ namespace BusinessLayer.Services
         }
         public Customer FindCustomerById(int customerID)
         {
+            var customer = _customerPresentation.FindById(customerID);
             _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
-            return _customerPresentation.FindById(customerID);
+            if (!string.IsNullOrEmpty(customer.FirstName))
+                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
+            else
+                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.notfound));
+
+            return customer;
         }
         public void UpdateCustomer(string customer)
         {
@@ -84,7 +92,7 @@ namespace BusinessLayer.Services
 
         public void DelegateMethod(object sender, PerformedEventArgs e)
         {
-            Console.WriteLine($"Cutomers are {e.EventsArgsType}.");
+            Console.WriteLine($"{CustomerMessage} {e.EventsArgsType}.");
         }
         #endregion
     }

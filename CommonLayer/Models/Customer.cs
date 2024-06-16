@@ -39,7 +39,7 @@ namespace CommonLayer.Models
                 _lastName = value;
             }
         }
-        public string Log() => $"Id: {CustomerId}: Name: {FullName} Email: {EmailAddress} state: {EntityState}";
+        public string Log() { return $"Id: {CustomerId}: Name: {FullName} Email: {EmailAddress} state: {EntityState}"; }
 
         public override bool Validate()
         {

@@ -181,7 +181,7 @@ namespace ConsoleApp
                         Console.WriteLine(viewModel.FindPersonById(id).Log());
                         break;
                     case 3:
-                        Console.WriteLine("Enter an employee with comma between entities.");
+                        Console.WriteLine("Enter a person with comma between entities.");
                         var dataItem = Console.ReadLine();
                         viewModel.AddPerson(dataItem);
                         break;

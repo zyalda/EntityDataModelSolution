@@ -3,6 +3,7 @@ using CommonLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace CSVData
 {
@@ -12,7 +13,8 @@ namespace CSVData
 
         public CsvPersonDataProvider()
         {
-            var basePath = AppContext.BaseDirectory;
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+                //@"C:\Users\zeenay\source\repos\EntityDataModelSolution\CSVData\bin\Debug\";
             var filename = "People.csv";
             Basepath = basePath + filename;
         }
@@ -35,45 +37,43 @@ namespace CSVData
 
         public void Add(Person person)
         {
-            using (StreamWriter writer = new StreamWriter(File.OpenWrite(Basepath)))
+            using (FileStream fileStream = new FileStream(Basepath, FileMode.Append, FileAccess.Write))
             {
-                writer.Write(string.Format(@"{0},{1},{2},{3},{4},", person.Id.ToString(), person.GivenName, person.FamilyName, person.StartDate.ToString(), person.Rating.ToString()));
-
-                //#region Loading and Adding Person to CSV file
-                //using (CsvWriter csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                //{
-                //    csvWriter.Context.Configuration.Delimiter = ",";
-                //    csvWriter.WriteField(person.Id);
-                //    csvWriter.WriteField(person.GivenName);
-                //    csvWriter.WriteField(person.FamilyName);
-                //    csvWriter.WriteField(person.StartDate);
-                //    csvWriter.WriteField(person.Rating);
-                //    csvWriter.NextRecord();
-                //}
-               // writer.Flush();
+                StreamWriter streamWriter = new StreamWriter(fileStream);
+                streamWriter.Write(string.Format(@"{0},{1},{2},{3},{4},", person.Id.ToString(), person.GivenName, person.FamilyName, person.StartDate.Date.ToString(), person.Rating.ToString()));
+                streamWriter.Close();
+                fileStream.Close();
             }
         }
 
         public void Update(int id, Person person)
         {
-            //using (var Context = UnitOfWork.Context)
-            //{
-            //    Employee item = Context.Employee.Where(x => x.Id == id).FirstOrDefault();
-            //    item.LastName = employee.LastName;
-            //    Context.SaveChanges();
-            //    Context.Dispose();
-            //};
+           var personString = string.Format(@"{0},{1},{2},{3},{4},", person.Id.ToString(), person.GivenName, person.FamilyName, person.StartDate.Date.ToString(), person.Rating.ToString());
+
+            var lines = File.ReadAllLines(Basepath);
+
+            for (int i = 0; i < lines.Length; ++i)
+            {
+                var line = lines[i].Split(',');
+                if (int.Parse(line[0]) == person.Id)
+                    lines[i] = lines[i].Replace(lines[i], personString);
+            }
+             File.WriteAllLines(Basepath, lines);
         }
 
         public void Delete(int id)
         {
-            //using (var Context = UnitOfWork.Context)
-            //{
-            //    var employee = Context.Employee.Where(x => x.Id == id).FirstOrDefault();
-            //    Context.Employee.Remove(employee);
-            //    Context.SaveChanges();
-            //    Context.Dispose();
-            //};
+            var lines = File.ReadAllLines(Basepath);
+
+            for (int i = 0; i < lines.Length; ++i)
+            {
+                var line = lines[i].Split(',');
+                if (int.Parse(line[0]) == id)
+                {
+                    var newLines = lines.Where(x => !x.Contains(line[i])).ToArray();
+                    File.WriteAllLines(Basepath, newLines);
+                }
+            }
         }
 
         //private async Task<IList<Person>> Result()
@@ -101,7 +101,7 @@ namespace CSVData
                         Id = int.Parse(segments[0]),
                         GivenName = segments[1],
                         FamilyName = segments[2],
-                        StartDate = DateTime.Parse(segments[3]),
+                        StartDate = DateTime.Parse(segments[3]).Date,
                         Rating = int.Parse(segments[4])
                     };
 
@@ -109,7 +109,6 @@ namespace CSVData
                     {
                         People.Add(person);
                     }
-
                     #endregion
                 }
             }

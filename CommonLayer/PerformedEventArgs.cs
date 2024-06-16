@@ -17,6 +17,7 @@ namespace CommonLayer
         added,
         founded,
         updated,
-        deleted
+        deleted,
+        notfound,
     }
 }

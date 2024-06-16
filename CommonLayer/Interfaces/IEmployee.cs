@@ -7,6 +7,5 @@
         string FirstName { get; set; }
         string FullName { get; }
         string LastName { get; set; }
-        //IAccountEmployee EmployeeAccount { get; }
     }
 }

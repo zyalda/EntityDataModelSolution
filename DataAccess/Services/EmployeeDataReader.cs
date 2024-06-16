@@ -26,15 +26,18 @@ namespace DataAccess.Services
             try
             {
                 var item = DataAccessFactory.CreateEmployeeDataProvider().FindById(id);
-                var employee = DataAccessFactory.CreateEmployee();
-                var findedEmployee = EmployeeAccount.ProvideEmployee(item, (Employee)employee);
-                return findedEmployee;
+                if (item != null)
+                {
+                    var employee = DataAccessFactory.CreateEmployee();
+                    var findedEmployee = EmployeeAccount.ProvideEmployee(item, (Employee)employee);
+                    return findedEmployee;
+                }
             }
             catch (ArgumentNullException ex)
             {
                 Console.WriteLine($"{ex.Message} item is not found!");
             }
-            return (Employee)DataAccessFactory.CreateEmployee();
+            return new Employee();
         }
         public void PrintAll()
         {

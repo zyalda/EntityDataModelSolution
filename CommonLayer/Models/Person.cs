@@ -18,7 +18,7 @@ namespace CommonLayer.Models
 
         public override string ToString()
         {
-            return string.Format(@"Id: {0} Name: {1} Family name: {2} Date: {3} Rating: {4}", Id.ToString(), GivenName, FamilyName, StartDate.ToString(), Rating.ToString());
+            return string.Format(@"Id: {0} Name: {1} Family name: {2} Date: {3} Rating: {4}", Id.ToString(), GivenName, FamilyName, StartDate.Date.ToString(), Rating.ToString());
         }
     }
 }
