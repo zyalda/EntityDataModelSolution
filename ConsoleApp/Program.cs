@@ -186,12 +186,12 @@ namespace ConsoleApp
                         viewModel.AddPerson(dataItem);
                         break;
                     case 4:
-                        Console.WriteLine("Enter an id.");
+                        Console.WriteLine("Enter a person to update.");
                         var data = Console.ReadLine();
                         viewModel.UpdatePerson(data);
                         break;
                     case 5:
-                        Console.WriteLine("Enter an id.");
+                        Console.WriteLine("Enter an id of a person to delete.");
                         var personId = Console.ReadLine();
                         var personID = FormatCheckOfInput(personId);
                         viewModel.DeletePerson(personID);
