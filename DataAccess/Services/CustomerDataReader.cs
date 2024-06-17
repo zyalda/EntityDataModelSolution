@@ -29,7 +29,10 @@ namespace DataAccess.Services
         public Customer FindById(int customerId)
         {
             var customerDataBase = DataAccessFactory.CreateCustomerDataProvider().FindById(customerId);
-            return CustomerAccount.CreateCustomer(customerDataBase, (Customer)customer);
+            if (customerDataBase != null)
+                return CustomerAccount.CreateCustomer(customerDataBase, (Customer)customer);
+            else
+                return new Customer();
         }
 
         public void Add(Customer customer)

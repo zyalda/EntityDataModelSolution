@@ -71,7 +71,7 @@ namespace ConsoleApp
                         Console.WriteLine("Enter an employee id.");
                         var entry = Console.ReadLine();
                         var id = FormatCheckOfInput(entry);
-                        Console.WriteLine(viewModel.FindEmployeeById(id).Log());
+                        Console.WriteLine(viewModel.FindEmployeeById(id));
                         break;
                     case 3:
                         Console.WriteLine("Enter an employee id, name, last name and email with comma between entities.");

@@ -42,7 +42,8 @@ namespace BusinessLayer.Services
         {
             var employee = _employeePresentation.FindById(id);
             _eventHandler += DelegateMethod;
-            if (!string.IsNullOrEmpty(employee.FirstName))
+
+            if(!string.IsNullOrEmpty(employee.FirstName))
                 _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
             else
                 _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.notfound));

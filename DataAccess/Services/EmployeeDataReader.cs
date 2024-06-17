@@ -1,7 +1,6 @@
 ﻿using CommonLayer;
 using CommonLayer.Interfaces;
 using CommonLayer.Models;
-using System;
 using System.Collections.Generic;
 
 namespace DataAccess.Services
@@ -23,22 +22,16 @@ namespace DataAccess.Services
 
         public Employee FindById(int id)
         {
-            try
+            var item = DataAccessFactory.CreateEmployeeDataProvider().FindById(id);
+            if (item != null)
             {
-                var item = DataAccessFactory.CreateEmployeeDataProvider().FindById(id);
-                if (item != null)
-                {
-                    var employee = DataAccessFactory.CreateEmployee();
-                    var findedEmployee = EmployeeAccount.ProvideEmployee(item, (Employee)employee);
-                    return findedEmployee;
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine($"{ex.Message} item is not found!");
+                var employee = DataAccessFactory.CreateEmployee();
+                var findedEmployee = EmployeeAccount.ProvideEmployee(item, (Employee)employee);
+                return findedEmployee;
             }
             return new Employee();
         }
+
         public void PrintAll()
         {
             RetrieveAll().WriteToFile();
