@@ -11,8 +11,8 @@ namespace BusinessLayer.Services
 {
     public class EmployeeReader : INotifyPropertyChanged
     {
-        public delegate void EventHandler(object sender, PerformedEventArgs eventArgs);
-        public EventHandler _eventHandler;
+        public delegate void EntityEventHandler(object sender, PerformedEventArgs eventArgs);
+        public EntityEventHandler _entityEventHandler;
         private readonly IDataReader<Employee> _employeePresentation;
 
         public EmployeeReader(IDataReader<Employee> employeePresentation)
@@ -22,7 +22,20 @@ namespace BusinessLayer.Services
             _employeePresentation = employeePresentation;
         }
 
-        public IEnumerable<Employee> Employee { get; set; }
+        private IEnumerable<Employee> _employee;
+        public IEnumerable<Employee> Employee
+        {
+            get { return _employee; }
+            set
+            {
+                if (_employee == value)
+                    return;
+                _employee = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        //public IEnumerable<Employee> Employee { get; set; }
         private string EmployeeMessage { get; set; }
         public void RefreshEmployee()
         {
@@ -31,22 +44,21 @@ namespace BusinessLayer.Services
 
         public void PrintEmployees()
         {
-            //RefreshEmployee();
             EmployeeMessage = "Employees are";
             Employee = _employeePresentation.RetrieveAll();
             Employee.WriteToFile();
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.loaded));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.loaded));
         }
         public Employee FindEmployeeById(int id)
         {
             var employee = _employeePresentation.FindById(id);
-            _eventHandler += DelegateMethod;
+            _entityEventHandler += DelegateMethod;
 
             if(!string.IsNullOrEmpty(employee.FirstName))
-                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
+                _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
             else
-                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.notfound));
+                _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.notfound));
             
             return employee;
         }
@@ -54,8 +66,8 @@ namespace BusinessLayer.Services
         {
             string[] employeeArray = employeeString.Split(',');
             _employeePresentation.Add(EmployeeAccount.EmployeeModel(employeeArray));
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.added));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.added));
         }
 
         public void UpdateEmployee(string employeeString)
@@ -63,15 +75,15 @@ namespace BusinessLayer.Services
             string[] employeeArray = employeeString.Split(',');
             var employee = EmployeeAccount.EmployeeModel(employeeArray);
             _employeePresentation.Update(employee.EmployeeId, employee);
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.updated));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.updated));
         }
 
         public void DeleteEmployee(int id)
         {
             _employeePresentation.Delete(id);
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.deleted));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.deleted));
         }
         public void ClearEmployee()
         {

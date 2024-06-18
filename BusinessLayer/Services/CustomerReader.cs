@@ -12,8 +12,8 @@ namespace BusinessLayer.Services
     public class CustomerReader
     {
 
-        public delegate void EventHandler(object sender, PerformedEventArgs eventArgs);
-        public EventHandler _eventHandler;
+        public delegate void EntityEventHandler(object sender, PerformedEventArgs eventArgs);
+        public EntityEventHandler _entityEventHandler;
         private readonly IDataReader<Customer> _customerPresentation;
 
         public CustomerReader(IDataReader<Customer> customerPresentation)
@@ -39,25 +39,25 @@ namespace BusinessLayer.Services
             Customers = _customerPresentation.RetrieveAll();
             Customers.WriteToFile();
             CustomerMessage = "Customers are";
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.loaded));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.loaded));
         }
         public void AddCustomer(string customer)
         {
             string[] customerArray = customer.Split(',');
             var addedCustomer = CustomerAccount.CustomerModel(customerArray);
             _customerPresentation.Add(addedCustomer);
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.added));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.added));
         }
         public Customer FindCustomerById(int customerID)
         {
             var customer = _customerPresentation.FindById(customerID);
-            _eventHandler += DelegateMethod;
+            _entityEventHandler += DelegateMethod;
             if (!string.IsNullOrEmpty(customer.FirstName))
-                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
+                _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.founded));
             else
-                _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.notfound));
+                _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.notfound));
 
             return customer;
         }
@@ -66,14 +66,14 @@ namespace BusinessLayer.Services
             string[] customerArray = customer.Split(',');
             var addedCustomer = CustomerAccount.CustomerModel(customerArray);
             _customerPresentation.Update(addedCustomer.CustomerId, addedCustomer);
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.updated));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.updated));
         }
         public void DeleteCustomer(int customerId)
         {
             _customerPresentation.Delete(customerId );
-            _eventHandler += DelegateMethod;
-            _eventHandler(this, new PerformedEventArgs(EventsArgsTypes.deleted));
+            _entityEventHandler += DelegateMethod;
+            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.deleted));
         }
 
         public string DataReaderType

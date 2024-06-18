@@ -44,7 +44,6 @@ namespace Decorators
             try
             {
                 _cachedItems = _wrappedReader.RetrieveAll();
-                _cachedItems.WriteToFile();
                 _dataDateTime = DateTime.Now;
             }
             catch
