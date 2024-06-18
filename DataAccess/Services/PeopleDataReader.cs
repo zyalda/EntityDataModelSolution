@@ -7,15 +7,15 @@ using System.Data;
 
 namespace DataAccess.Services
 {
-    public class PeopleDataReader : IDataReader<Person>
+    public class PeopleDataReader : IRepository<Person>
     {
-        public IEnumerable<Person> RetrieveAll()
+        public IEnumerable<Person> GetAll()
         {
             return DataAccessFactory.CreatePersonDataProvider().GetAll();
         }
         public void PrintAll()
         {
-            RetrieveAll().WriteToFile();
+            GetAll().WriteToFile();
         }
 
         public Person FindById(int id)

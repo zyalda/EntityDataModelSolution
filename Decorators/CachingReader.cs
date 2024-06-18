@@ -6,20 +6,20 @@ using System.Collections.Generic;
 
 namespace Decorators
 {
-    public class CachingReader : IDataReader<Employee>
+    public class CachingReader : IRepository<Employee>
     {
-        private IDataReader<Employee> _wrappedReader;
+        private IRepository<Employee> _wrappedReader;
         private IEnumerable<Employee> _cachedItems;
 
         private TimeSpan _cacheDuration = new TimeSpan(0, 0, 10);
         private DateTime _dataDateTime;
 
-        public CachingReader(IDataReader<Employee> wrappedReader)
+        public CachingReader(IRepository<Employee> wrappedReader)
         {
             _wrappedReader = wrappedReader;
         }
 
-        public IEnumerable<Employee> RetrieveAll()
+        public IEnumerable<Employee> GetAll()
         {
             ValidateCache();
             return _cachedItems;
@@ -43,7 +43,7 @@ namespace Decorators
 
             try
             {
-                _cachedItems = _wrappedReader.RetrieveAll();
+                _cachedItems = _wrappedReader.GetAll();
                 _dataDateTime = DateTime.Now;
             }
             catch
@@ -64,9 +64,9 @@ namespace Decorators
             _dataDateTime = DateTime.MinValue;
         }
 
-        void IDataReader<Employee>.PrintAll()
+        void PrintAll()
         {
-            RetrieveAll().WriteToFile();
+            GetAll().WriteToFile();
         }
 
         public Employee FindById(int id)

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace DataAccess.Services
 {
-    public class CustomerDataReader : IDataReader<Customer>
+    public class CustomerDataReader : IRepository<Customer>
     {
         ICustomer customer = DataAccessFactory.CreateCustomer();
-        public IEnumerable<Customer> RetrieveAll()
+        public IEnumerable<Customer> GetAll()
         {
             List<Customer> list = new List<Customer>();
             var items = DataAccessFactory.CreateCustomerDataProvider().GetAll();
@@ -23,7 +23,7 @@ namespace DataAccess.Services
 
         public void PrintAll()
         {
-            RetrieveAll().WriteToFile();
+            GetAll().WriteToFile();
         }
 
         public Customer FindById(int customerId)

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DataPresentation
 {
-    public class FakeEmployeeReader : IDataReader<Employee>
+    public class FakeEmployeeReader : IRepository<Employee>
     {
         public IList<Employee> FileEmployeesLoader { get; set; }
 
@@ -19,14 +19,14 @@ namespace DataPresentation
             FileEmployeesLoader = loader.LoadFakeEmployees();
         }
 
-        public IEnumerable<Employee> RetrieveAll()
+        public IEnumerable<Employee> GetAll()
         {
             return FileEmployeesLoader;
         }
 
         public void PrintAll()
         {
-            RetrieveAll().WriteToFile();
+            GetAll().WriteToFile();
         }
 
         public Employee FindById(int id)

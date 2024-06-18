@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace DataAccess.Services
 {
-    public class EmployeeDataReader : IDataReader<Employee>
+    public class EmployeeDataReader : IRepository<Employee>//IDataReader<Employee>
     {
-        public IEnumerable<Employee> RetrieveAll()
+        public IEnumerable<Employee> GetAll()
         {
             IList<Employee> list = new List<Employee>();
             var items = DataAccessFactory.CreateEmployeeDataProvider().GetAll();
@@ -34,7 +34,7 @@ namespace DataAccess.Services
 
         public void PrintAll()
         {
-            RetrieveAll().WriteToFile();
+            GetAll().WriteToFile();
         }
 
         public void Add(Employee dataItem)

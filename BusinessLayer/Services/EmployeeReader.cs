@@ -13,9 +13,9 @@ namespace BusinessLayer.Services
     {
         public delegate void EntityEventHandler(object sender, PerformedEventArgs eventArgs);
         public EntityEventHandler _entityEventHandler;
-        private readonly IDataReader<Employee> _employeePresentation;
+        private readonly IRepository<Employee> _employeePresentation;
 
-        public EmployeeReader(IDataReader<Employee> employeePresentation)
+        public EmployeeReader(IRepository<Employee> employeePresentation)
         {
             EmployeeMessage = "Employee is";
             Employee = new List<Employee>();
@@ -39,13 +39,13 @@ namespace BusinessLayer.Services
         private string EmployeeMessage { get; set; }
         public void RefreshEmployee()
         {
-            Employee = _employeePresentation.RetrieveAll();
+            Employee = _employeePresentation.GetAll();
         }
 
         public void PrintEmployees()
         {
             EmployeeMessage = "Employees are";
-            Employee = _employeePresentation.RetrieveAll();
+            Employee = _employeePresentation.GetAll();
             Employee.WriteToFile();
             _entityEventHandler += DelegateMethod;
             _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.loaded));

@@ -68,7 +68,7 @@ namespace ConsoleApp
                         viewModel.PrintEmployees();
                         break;
                     case 2:
-                        Console.WriteLine("Enter an employee id.");
+                        Console.WriteLine("Enter an employee id to find the current employee.");
                         var entry = Console.ReadLine();
                         var id = FormatCheckOfInput(entry);
                         Console.WriteLine(viewModel.FindEmployeeById(id).Log());

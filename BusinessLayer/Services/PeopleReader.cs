@@ -14,9 +14,9 @@ namespace BusinessLayer.Services
 
         public delegate void EventHandler(object sender, PerformedEventArgs eventArgs);
         public EventHandler _eventHandler;
-        private readonly IDataReader<Person> _PersonPresentation;
+        private readonly IRepository<Person> _PersonPresentation;
 
-        public PeopleReader(IDataReader<Person> personPresentation)
+        public PeopleReader(IRepository<Person> personPresentation)
         {
             People = new List<Person>();
             PersonMessage = "Person is";
@@ -27,16 +27,12 @@ namespace BusinessLayer.Services
         private string PersonMessage { get; set; }
         public void RefreshPeople()
         {
-            //PropertyChanged += delegate(object sender, PropertyChangedEventArgs eventArgs)
-            //{
-            //    Console.WriteLine("List employees is done Loading." + eventArgs.PropertyName);
-            //};
-            People = _PersonPresentation.RetrieveAll();
+            People = _PersonPresentation.GetAll();
         }
 
         public void PrintPeople()
         {
-            People = _PersonPresentation.RetrieveAll();
+            People = _PersonPresentation.GetAll();
             People.WriteToFile();
             PersonMessage = "People are";
             _eventHandler += DelegateMethod;

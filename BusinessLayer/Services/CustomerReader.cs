@@ -14,9 +14,9 @@ namespace BusinessLayer.Services
 
         public delegate void EntityEventHandler(object sender, PerformedEventArgs eventArgs);
         public EntityEventHandler _entityEventHandler;
-        private readonly IDataReader<Customer> _customerPresentation;
+        private readonly IRepository<Customer> _customerPresentation;
 
-        public CustomerReader(IDataReader<Customer> customerPresentation)
+        public CustomerReader(IRepository<Customer> customerPresentation)
         {
             CustomerMessage = "Customer is";
             Customers = new List<Customer>();
@@ -31,12 +31,12 @@ namespace BusinessLayer.Services
             //{
             //    Console.WriteLine("List employees is done Loading." + eventArgs.PropertyName);
             //};
-            Customers = _customerPresentation.RetrieveAll();
+            Customers = _customerPresentation.GetAll();
         }
 
         public void PrintCustomers()
         {
-            Customers = _customerPresentation.RetrieveAll();
+            Customers = _customerPresentation.GetAll();
             Customers.WriteToFile();
             CustomerMessage = "Customers are";
             _entityEventHandler += DelegateMethod;
