@@ -35,7 +35,6 @@ namespace BusinessLayer.Services
             }
         }
 
-        //public IEnumerable<Employee> Employee { get; set; }
         private string EmployeeMessage { get; set; }
         public void RefreshEmployee()
         {
@@ -87,7 +86,7 @@ namespace BusinessLayer.Services
         }
         public void ClearEmployee()
         {
-            Employee = new List<Employee>(0);            
+            Employee = new List<Employee>(0);
         }
 
         public string DataReaderType

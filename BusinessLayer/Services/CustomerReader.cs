@@ -27,10 +27,6 @@ namespace BusinessLayer.Services
         private string CustomerMessage { get; set; }
         public void RefreshCustomer()
         {
-            //PropertyChanged += delegate(object sender, PropertyChangedEventArgs eventArgs)
-            //{
-            //    Console.WriteLine("List employees is done Loading." + eventArgs.PropertyName);
-            //};
             Customers = _customerPresentation.GetAll();
         }
 
@@ -39,6 +35,7 @@ namespace BusinessLayer.Services
             Customers = _customerPresentation.GetAll();
             Customers.WriteToFile();
             CustomerMessage = "Customers are";
+            
             _entityEventHandler += DelegateMethod;
             _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.loaded));
         }

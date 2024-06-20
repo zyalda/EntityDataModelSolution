@@ -11,7 +11,7 @@ namespace DataBase.DataAccessLayer
         {
             using (var Context = UnitOfWork.Context)
             {
-                return  Context.Customer.ToList();
+                return Context.Customer.ToList();
             };
         }
 

@@ -45,6 +45,7 @@
     <Compile Include="Services\PeopleReader.cs" />
     <Compile Include="Services\CustomerReader.cs" />
     <Compile Include="Services\EmployeeReader.cs" />
+    <Compile Include="Services\RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLayer\CommonLayer.csproj">

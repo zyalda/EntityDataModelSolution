@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DataAccess.Services
 {
-    public class EmployeeDataReader : IRepository<Employee>//IDataReader<Employee>
+    public class EmployeeDataReader : IRepository<Employee>
     {
         public IEnumerable<Employee> GetAll()
         {

@@ -12,6 +12,7 @@ namespace DataAccess.Services
         {
             List<Customer> list = new List<Customer>();
             var items = DataAccessFactory.CreateCustomerDataProvider().GetAll();
+
             foreach (var item in items)
             {
                 var customer = DataAccessFactory.CreateCustomer();
