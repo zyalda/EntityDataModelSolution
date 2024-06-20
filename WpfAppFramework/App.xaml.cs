@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Services;
-using DataAccess.Services;
+using CommonLayer.Models;
 using Decorators;
 using System.Windows;
 
@@ -20,8 +20,9 @@ namespace WpfAppFramework
 
         private static void ComposeObjects()
         {
-            var employeeDataReader = new EmployeeDataReader();
-            var caching = new CachingReader(employeeDataReader);
+            var test = RepositoryFactory.GetRepository<Employee>("Employee");
+            //var employeeDataReader = new EmployeeDataReader();
+            var caching = new CachingReader(test);
             var viewModel = new EmployeeReader(caching);
             Current.MainWindow = new MainWindowView(viewModel);
         }
