@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models;
+﻿using CommonLayer;
+using CommonLayer.Models;
 
 namespace DataAccess.Services
 {
@@ -27,13 +28,12 @@ namespace DataAccess.Services
 
         public static Customer CustomerModel(string[] customerString)
         {
-            Customer customer = new Customer()
-            {
-                CustomerId = int.Parse(customerString[0]),
-                FirstName = customerString[1],
-                LastName = customerString[2],
-                EmailAddress = customerString[3],
-            };
+            Customer customer = new Customer();
+            Validations.ValidationEntityArray(customerString);
+            customer.CustomerId = int.Parse(customerString[0]);
+            customer.FirstName = customerString[1];
+            customer.LastName = customerString[2];
+            customer.EmailAddress = customerString[3];
             return customer;
         }
     }

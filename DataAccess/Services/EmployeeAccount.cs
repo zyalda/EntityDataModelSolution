@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models;
+﻿using CommonLayer;
+using CommonLayer.Models;
 
 namespace DataAccess.Services
 {
@@ -27,13 +28,12 @@ namespace DataAccess.Services
 
         public static Employee EmployeeModel(string[] employeeString)
         {
-            Employee employee = new Employee()
-            {
-                EmployeeId = int.Parse(employeeString[0]),
-                FirstName = employeeString[1],
-                LastName = employeeString[2],
-                EmailAddress = employeeString[3],
-            };
+            Employee employee = new Employee();
+            Validations.ValidationEntityArray(employeeString);
+            employee.EmployeeId = int.Parse(employeeString[0]);
+            employee.FirstName = employeeString[1];
+            employee.LastName = employeeString[2];
+            employee.EmailAddress = employeeString[3];
             return employee;
         }
     }

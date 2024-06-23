@@ -19,5 +19,6 @@ namespace CommonLayer
         updated,
         deleted,
         notfound,
+        notcomplete
     }
 }

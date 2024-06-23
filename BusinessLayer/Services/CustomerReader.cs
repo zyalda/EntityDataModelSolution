@@ -42,10 +42,26 @@ namespace BusinessLayer.Services
         public void AddCustomer(string customer)
         {
             string[] customerArray = customer.Split(',');
-            var addedCustomer = CustomerAccount.CustomerModel(customerArray);
-            _customerPresentation.Add(addedCustomer);
-            _entityEventHandler += DelegateMethod;
-            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.added));
+            try
+            {
+                var addedCustomer = CustomerAccount.CustomerModel(customerArray);
+                _customerPresentation.Add(addedCustomer);
+                _entityEventHandler += DelegateMethod;
+                _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.added));
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine("The values can not be empty. " + ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine($"The id you entered is not valid. {ex.Message}");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+           
         }
         public Customer FindCustomerById(int customerID)
         {

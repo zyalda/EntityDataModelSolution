@@ -7,7 +7,7 @@ namespace DataAccess.Services
     {
         public static Person ProvidePerson(string[] personArray)
         {
-            Person person = new Person
+            Person person = new Person()
             {
                 Id = int.Parse(personArray[0]),
                 GivenName = personArray[1],

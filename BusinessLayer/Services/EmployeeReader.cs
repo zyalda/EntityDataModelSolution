@@ -64,9 +64,22 @@ namespace BusinessLayer.Services
         public void AddEmployee(string employeeString)
         {
             string[] employeeArray = employeeString.Split(',');
-            _employeePresentation.Add(EmployeeAccount.EmployeeModel(employeeArray));
-            _entityEventHandler += DelegateMethod;
-            _entityEventHandler(this, new PerformedEventArgs(EventsArgsTypes.added));
+            try
+            {
+                _employeePresentation.Add(EmployeeAccount.EmployeeModel(employeeArray));
+                PrintEmployees();
+            }
+            catch(ArgumentNullException ex)
+            {
+                Console.WriteLine("The values can not be empty. " + ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine($"The id or email you entered is not valid. {ex.Message}");
+            }catch(ArgumentOutOfRangeException ex)
+            {
+            Console.WriteLine($"{ex.Message}");
+            }
         }
 
         public void UpdateEmployee(string employeeString)

@@ -77,7 +77,6 @@ namespace ConsoleApp
                         Console.WriteLine("Enter an employee id, name, last name and email with comma between entities.");
                         var employee = Console.ReadLine();
                         viewModel.AddEmployee(employee);
-                        viewModel.PrintEmployees();
                         break;
                     case 4:
                         Console.WriteLine("Enter an employee with comma between entities to update.");
@@ -128,7 +127,7 @@ namespace ConsoleApp
                         Console.WriteLine(viewModel.FindCustomerById(id).Log());
                         break;
                     case 3:
-                        Console.Write("Add a customer to list with name, last name and email with comma separator.");
+                        Console.WriteLine("Add a customer to list with name, last name and email with comma separator.");
                         var customer = Console.ReadLine();
                         viewModel.AddCustomer(customer);
                         break;
